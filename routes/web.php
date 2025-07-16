@@ -5,7 +5,7 @@ use App\Models\HealthPlan;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use ConsoleTVs\Charts\Classes\Chartjs\Chart;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -193,7 +193,7 @@ Route::post('/post-login', function (Request $request) {
 })->name('post_login');
 
 Route::post('/post-register', function (Request $request) {
-    
+   
            $validated = $request->validate([
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
@@ -201,8 +201,10 @@ Route::post('/post-register', function (Request $request) {
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
+        $image = UploadController::UploadFile($request);
+
         $user = User::create([
-            'image' => UploadController::UploadFile($request),
+            'image' => $image ?? 'https://img.icons8.com/?size=100&id=23265&format=png&color=000000',
             'first_name' => $validated['first_name'],
             'last_name' => $validated['last_name'],
             'email' => $validated['email'],

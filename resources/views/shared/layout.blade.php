@@ -46,7 +46,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
         integrity="sha512-G8UfaHHEu5S+kCmBb1eLg7HzKqjpmCy2e6uXCE4UdyGQ5+N3EOljMIx4CxtX9QZ4EvATYhdA4sS0bkFnbd5V1Q=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+          <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+           <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+<style>
+    body {
+  font-family: 'Inter', sans-serif;
+}
+</style>
 </head>
 
 <body>
@@ -137,7 +144,7 @@
         <footer class="d-footer">
             <div class="row align-items-center justify-content-between">
                 <div class="col-auto">
-                    <p class="mb-0">© 2024 HealthWiseer. All Rights Reserved.</p>
+                    <p class="mb-0">© 2024 HealthWise. All Rights Reserved.</p>
                 </div>
 
             </div>

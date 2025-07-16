@@ -18,7 +18,7 @@
                         <div class="mb-3">
                             <label for="name" class="form-label">Image</label>
                             <input type="file" class="form-control" 
-                                   name="image"required autocomplete="name" autofocus>
+                                   name="image"required>
                           
                         </div>
                         

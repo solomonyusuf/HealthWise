@@ -1,5 +1,4 @@
-<html data-wf-domain="medix-html-webflow-template.webflow.io" data-wf-page="6319b6d4b1d632ada94daf26"
-    data-wf-site="6319b6d4b1d63276594daf25" class=" w-mod-js w-mod-ix">
+<html class=" w-mod-js w-mod-ix">
 
 <head>
     <style>
@@ -21,6 +20,7 @@
         rel="shortcut icon" type="image/x-icon">
     <link href="https://cdn.prod.website-files.com/6319b6d4b1d63276594daf25/635bd5132b1b16131589be81_medix-webclip.png"
         rel="apple-touch-icon">
+      
        
 </head>
 

@@ -3,8 +3,8 @@
 @php
 
   $result =  App\Http\Controllers\ChartController::generate_activity();
-
-   
+  
+  $chart =  App\Http\Controllers\ChartController::generate_chart(); 
 @endphp
  <div class="dashboard-main-body">
 
@@ -49,11 +49,24 @@
                             </div>
                             
                         </div>
+                          <div class="col-xxl-6">
+                            <div class="card h-100">
+                                <div class="card-header">
+                                    <div class="d-flex align-items-center flex-wrap gap-2 justify-content-between">
+                                        <h6 class="mb-2 fw-bold text-lg mb-0">Glucose And Excercise Chart</h6>
+                                    </div>
+                                </div>
+                                <div class="card-body p-24 d-flex align-items-center gap-16">
+                                    {!! $chart->container() !!}
+                                </div>
+                            </div>
+                            
+                        </div>
                         <!-- Patient Visited by Depertment -->
                     </div>
                 </div>
         
             </div>
     </div>
-    
+        {!! $chart->script() !!}
 @endsection
