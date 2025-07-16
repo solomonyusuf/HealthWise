@@ -26,7 +26,7 @@
                 <a href="#dashboard" class="nav-link">Dashboard</a>
                 <a href="#ai-dashboard" class="nav-link">AI Insights</a>
                 <a href="#about" class="nav-link">About</a>
-                <a href="#contact" class="nav-link">Contact</a>
+                <a href="{{route('login')}}" class="nav-link">Login</a>
             </div>
             <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
                 <span></span>
@@ -47,9 +47,9 @@
                     Track vital signs, monitor your wellness journey, and take control of your health with our intuitive platform designed for modern healthcare management.
                 </p>
                 <div class="hero-buttons">
-                    <button class="btn btn-primary" onclick="scrollToSection('dashboard')">
+                    <a href="{{route('login')}}" class="btn btn-primary" onclick="scrollToSection('dashboard')">
                         Get Started
-                    </button>
+                    </a>
                     <button class="btn btn-secondary" onclick="scrollToSection('features')">
                         Learn More
                     </button>
