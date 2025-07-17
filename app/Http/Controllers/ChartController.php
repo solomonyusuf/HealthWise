@@ -41,9 +41,9 @@ class ChartController {
 
     public static function generate_activity()
     {
-        $query = HealthPlan::where(['user_id'=> auth()->user()->id])->orderByDesc('created_at')->first();
+        $query = HealthPlan::orderByDesc('created_at')->where(['user_id'=> auth()?->user()?->id])->first();
        
-        $first = json_decode($query->meta_data)?->diabeties_risk;
+        $first = json_decode($query->result)?->diabeties_risk;
 
         return $first;
     }

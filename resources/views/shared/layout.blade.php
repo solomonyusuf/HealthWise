@@ -178,10 +178,13 @@
 
     <!-- main js -->
     <script src="assets/js/app.js"></script>
-
+@php
+    // Ensure it's a number by stripping the % sign
+    $numericResult = (int) str_replace('%', '', $result);
+@endphp
     <script>
     var options = {
-        series: [{{ $result }}],
+        series: [{{ $numericResult }}],
         chart: {
             height: 300,
             type: 'radialBar',

@@ -35,10 +35,10 @@
                                     </div>
                                 </div>
                                 <div class="card-body p-24 d-flex align-items-center gap-16">
-                                    <div id="radialMultipleBar"></div>
+                                    <div id="diabetesRiskChart"></div>
                                     <ul class="d-flex flex-column gap-12">
                                         <li>
-                                            <span class="text-lg">Diabeties Risk Analytics: <span class="text-primary-600 fw-semibold">{{$result}}%</span> </span>
+                                            <span class="text-lg">Diabeties Risk Analytics: <span class="text-primary-600 fw-semibold">{{$result}}</span> </span>
                                         </li>
                                       
                                          

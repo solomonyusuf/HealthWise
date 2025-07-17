@@ -144,7 +144,7 @@ Route::middleware(['auth'])->group(function(){
             HealthPlan::create([
                 'user_id' => auth()?->user()?->id,
                 'info' => $input,
-                'result'=> $parsed
+                'result'=> json_encode($parsed)
             ]);  
         
         return redirect()->route('result');
