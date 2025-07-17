@@ -39,17 +39,24 @@ class ChartController {
 
     // }
 
-    public static function generate_activity()
+     public static function generate_activity()
     {
-        $query = HealthPlan::orderByDesc('created_at')->where(['user_id'=> auth()?->user()?->id])->first();
-       
+        $query = HealthPlan::orderByDesc('created_at')
+            ->where('user_id', auth()?->user()?->id)
+            ->first();
+
         $first = 0;
-        
-        if($query)
-        $first = json_decode($query?->result)?->diabeties_risk;
+
+        if ($query?->result) {
+            $risk = json_decode($query->result)?->diabeties_risk ?? '0%';
+
+            // Remove the percentage symbol and cast to integer
+            $first = $risk;
+        }
 
         return $first;
     }
+
     public static function generate_chart()
     {
         $query = HealthPlan::where(['user_id' => auth()->user()->id])->get();
