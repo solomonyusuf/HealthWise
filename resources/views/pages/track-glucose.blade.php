@@ -73,7 +73,214 @@
                         <h4 class="card-title mb-0">Comprehensive Health Assessment</h4>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('ai_result') }}" method="post" id="healthAssessmentForm">
+                        <div class="card-body">
+    <form action="{{ route('ai_result') }}" method="post" id="healthAssessmentForm">
+        @csrf
+
+        <!-- Basic Information -->
+        <div class="row gy-3 mb-4">
+            <div class="col-md-6">
+                <label class="form-label">Age (years)</label>
+                <input type="number" name="age" class="form-control" placeholder="35" min="1" max="120">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Height (cm)</label>
+                <input type="number" name="height" class="form-control" placeholder="170" min="50" max="250">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Weight (kg)</label>
+                <input type="number" name="weight" class="form-control" placeholder="70" min="20" max="300" step="0.1">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Gender</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="gender" value="male" id="genderMale">
+                    <label class="form-check-label  px-4" for="genderMale">Male</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="gender" value="female" id="genderFemale">
+                    <label class="form-check-label px-4" for="genderFemale">Female</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="gender" value="other" id="genderOther">
+                    <label class="form-check-label px-4" for="genderOther">Other</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="gender" value="prefer-not-to-say" id="genderNA">
+                    <label class="form-check-label px-4" for="genderNA">Prefer not to say</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Blood Tests -->
+        <div class="row gy-3 mb-4">
+            <div class="col-12">
+                <h6 class="text-primary mb-3">Blood Test Results</h6>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Blood Sugar Level (mg/dL)</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-base">🩸</span>
+                    <input type="number" name="bloodSugar" class="form-control" placeholder="100" min="50" max="500">
+                </div>
+                <p class="text-sm mt-1 mb-0 text-muted">Fasting blood glucose level</p>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Insulin Level (μU/mL)</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-base">💉</span>
+                    <input type="number" name="insulinLevel" class="form-control" placeholder="15" min="0" max="100" step="0.1">
+                </div>
+            </div>
+        </div>
+
+        <!-- Blood Pressure -->
+        <div class="row gy-3 mb-4">
+            <div class="col-12">
+                <h6 class="text-primary mb-3">Blood Pressure</h6>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Systolic BP</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-base">❤️</span>
+                    <input type="number" name="systolicBP" class="form-control" placeholder="120" min="70" max="200">
+                    <span class="input-group-text bg-base">mmHg</span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Diastolic BP</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-base">❤️</span>
+                    <input type="number" name="diastolicBP" class="form-control" placeholder="80" min="40" max="130">
+                    <span class="input-group-text bg-base">mmHg</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Physical Activity -->
+        <div class="row gy-3 mb-4">
+            <div class="col-12">
+                <label class="form-label">Physical Activity Level</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="activityLevel[]" value="sedentary" id="activitySedentary">
+                    <label class="form-check-label px-4" for="activitySedentary">Sedentary</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="activityLevel[]" value="lightly-active" id="activityLight">
+                    <label class="form-check-label px-4" for="activityLight">Lightly Active</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="activityLevel[]" value="moderately-active" id="activityModerate">
+                    <label class="form-check-label px-4" for="activityModerate">Moderately Active</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="activityLevel[]" value="very-active" id="activityVery">
+                    <label class="form-check-label px-4" for="activityVery">Very Active</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="activityLevel[]" value="extremely-active" id="activityExtreme">
+                    <label class="form-check-label px-4" for="activityExtreme">Extremely Active</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lifestyle Factors -->
+        <div class="row gy-3 mb-4">
+            <div class="col-12">
+                <label class="form-label">Lifestyle Factors</label>
+                @php
+                    $lifestyleOptions = [
+                        'smoking' => 'Smoking',
+                        'alcohol' => 'Regular alcohol consumption',
+                        'stress' => 'High stress levels',
+                        'poor-diet' => 'Poor dietary habits',
+                        'irregular-sleep' => 'Irregular sleep patterns',
+                        'family-history' => 'Family history of diabetes'
+                    ];
+                @endphp
+                @foreach($lifestyleOptions as $val => $label)
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="lifestyleFactors[]" value="{{ $val }}" id="life_{{ $val }}">
+                        <label class="form-check-label px-4" for="life_{{ $val }}">{{ $label }}</label>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+
+        <!-- Co-morbidities -->
+        <div class="row gy-3 mb-4">
+            <div class="col-12">
+                <label class="form-label">Co-morbidities</label>
+                @php
+                    $comorbidities = [
+                        'hypertension' => 'Hypertension',
+                        'obesity' => 'Obesity',
+                        'heart-disease' => 'Heart Disease',
+                        'kidney-disease' => 'Kidney Disease',
+                        'thyroid' => 'Thyroid Disorders',
+                        'depression' => 'Depression/Anxiety',
+                        'sleep-apnea' => 'Sleep Apnea',
+                        'arthritis' => 'Arthritis',
+                        'none' => 'None'
+                    ];
+                @endphp
+                @foreach($comorbidities as $val => $label)
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="comorbidities[]" value="{{ $val }}" id="co_{{ $val }}">
+                        <label class="form-check-label px-4" for="co_{{ $val }}">{{ $label }}</label>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+
+        <!-- Family History -->
+        <div class="row gy-3 mb-4">
+            <div class="col-12">
+                <label class="form-label">Family History of Diabetes</label>
+                <textarea name="familyHistory" class="form-control" rows="4" placeholder="Please describe any family history of diabetes (parents, siblings, etc.)"></textarea>
+                <p class="text-sm mt-1 mb-0">Include info about immediate family members with diabetes</p>
+            </div>
+        </div>
+
+        <!-- Contact Information -->
+        <div class="row gy-3 mb-4">
+            <div class="col-12">
+                <h6 class="text-primary mb-3">Contact Information (Optional)</h6>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Email Address</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-base">✉️</span>
+                    <input type="email" name="email" class="form-control" placeholder="info@gmail.com">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Phone Number</label>
+                <div class="input-group">
+                    <input type="hidden" name="countryCode" value="+234">
+                    <input type="tel" name="phone" class="form-control" placeholder="(555) 253-08515">
+                </div>
+            </div>
+        </div>
+
+        <!-- Assessment Date -->
+        <div class="row gy-3 mb-4">
+            <div class="col-md-6">
+                <label class="form-label">Assessment Date</label>
+                <input type="date" name="assessmentDate" class="form-control">
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="row">
+            <div class="col-12 text-center">
+                <button type="submit" class="btn btn-primary btn-lg">📋 Submit Health Information</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+                        {{-- <form action="{{ route('ai_result') }}" method="post" id="healthAssessmentForm">
                             @csrf
                             <!-- Basic Information -->
                             <div class="row gy-3 mb-4">
@@ -258,7 +465,7 @@
                                     </button>
                                 </div>
                             </div>
-                        </form>
+                        </form> --}}
                     </div>
                 </div>
             </div>

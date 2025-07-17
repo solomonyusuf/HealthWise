@@ -47,70 +47,79 @@ Route::middleware(['auth'])->group(function(){
             if($request?->result)
             $input = json_encode(HealthPlan::find($request?->result)?->info);
 
-        $payload = [
-                'model' => $model,
-                'messages' => [
-                    ['role' => 'system', 'content' => "based on this input fields generate {$input}"],
-                    ['role' => 'system', 'content' => "return your response in json follow this pattern 
-                    {
-                        'daibeties_status' : 'explain something here but you must say the status diabetic or non-diabetic...',
-                        'daily_meal_plan': {
-                            'breakfast': {
-                                'time' : '7am',
-                                'food' : 'Egg white omelet with spinach and whole grain toast',
-                                'food_class' : 'High protein, low calorie breakfast',
-                                'marked_by_user': 'none'
-                        
-                            },
-                            'mid_breakfast': {
-                                'time' : '10am',
-                                'food' : 'Greek yogurt with berries',
-                                'food_class' : 'Protein-rich snack with antioxidants',
-                                'marked_by_user': 'none'
-                            },
-                            'lunch': {
-                                'time' : '1pm',
-                                'food' : 'Grilled chicken salad with olive oil dressing',
-                                'food_class' : 'Lean protein with fiber-rich vegetables',
-                                'marked_by_user': 'none'
-                            },
-                            'afternoon_snack': {
-                                'time' : '4pm',
-                                'food' : 'Apple slices with almond butter',
-                                'food_class' : 'Balanced energy boost',
-                                'marked_by_user': 'none'
-                            },
-                            'dinner': {
-                                'time' : '7pm',
-                                'food' : 'Baked fish with steamed vegetables',
-                                'food_class' : 'Low-calorie, high-protein dinner',
-                                'marked_by_user': 'none'
-                            },
-                        },
-                        'physical_activity': {
-                            'aerobic_excercise' : {
-                                'walk' : '20 minutes, 3 days/week',
-                                'action_1': 'Light walking',
-                                'action_2': 'Swimming',
-                                'action_3': 'Stationary cycling at low intensity',
-                                'marked_by_user': 'none'
-                            },
-                            'strength_tranning' : {
-                                'duration' : '15-20 minutes, 3 days/week',
-                                'action_1': 'Light resistance bands',
-                                'action_2': 'Chair exercises',
-                                'action_3': 'Gentle stretching',
-                                'marked_by_user': 'none'
-                            }
+            $payload = [
+                    'model' => $model,
+                    'messages' => [
+                        [
+                            'role' => 'system',
+                            'content' => "You are a Nigerian health assistant AI. Based on the user's health profile, return a strictly structured JSON response. 
 
-                        }
-                    }"
-                ],
-                    ['role' => 'user', 'content' => 'Hello'],
-                ],
-                'temperature' => 1.0,
-                'top_p' => 1.0,
-            ];
+                                    - The values must be dynamic and personalized based on input.  
+                                    - The diet plan must **only include Nigerian foods**.  
+                                    - Do **not** include any non-Nigerian meals.  
+                                    - Respond with JSON only — no extra explanation or formatting.  
+                                    - Follow this **exact structure** and naming:
+
+                                    {
+                                    'daibeties_status': 'explain something here but you must say the status diabetic or non-diabetic...',
+                                    'daily_meal_plan': {
+                                        'breakfast': {
+                                        'time': '7am',
+                                        'food': 'e.g., Moi Moi and pap',
+                                        'food_class': 'High fiber, low fat',
+                                        'marked_by_user': 'none'
+                                        },
+                                        'mid_breakfast': {
+                                        'time': '10am',
+                                        'food': 'e.g., boiled corn with pear',
+                                        'food_class': 'Fiber-rich traditional snack',
+                                        'marked_by_user': 'none'
+                                        },
+                                        'lunch': {
+                                        'time': '1pm',
+                                        'food': 'e.g., Ofada rice with vegetables and grilled fish',
+                                        'food_class': 'Local balanced Nigerian meal',
+                                        'marked_by_user': 'none'
+                                        },
+                                        'afternoon_snack': {
+                                        'time': '4pm',
+                                        'food': 'e.g., groundnuts and banana',
+                                        'food_class': 'Energy-boosting light meal',
+                                        'marked_by_user': 'none'
+                                        },
+                                        'dinner': {
+                                        'time': '7pm',
+                                        'food': 'e.g., vegetable soup with wheat swallow',
+                                        'food_class': 'Light, fiber-rich Nigerian dinner',
+                                        'marked_by_user': 'none'
+                                        }
+                                    },
+                                    'physical_activity': {
+                                        'aerobic_excercise': {
+                                        'walk': 'e.g., 20 minutes, 3 days/week',
+                                        'action_1': 'e.g., walking around compound',
+                                        'action_2': 'e.g., dancing to music indoors',
+                                        'action_3': 'e.g., climbing stairs',
+                                        'marked_by_user': 'none'
+                                        },
+                                        'strength_tranning': {
+                                        'duration': '15-20 minutes, 3 days/week',
+                                        'action_1': 'e.g., using water bottles as weights',
+                                        'action_2': 'e.g., chair squats',
+                                        'action_3': 'e.g., resistance band rows',
+                                        'marked_by_user': 'none'
+                                        }
+                                    }
+                                    }"
+                                            ],
+                                            [
+                                                'role' => 'user',
+                                                'content' => $input  // Example below
+                                            ]
+                                        ],
+                                        'temperature' => 0.7,
+                                        'top_p' => 1.0,
+                                    ];
 
             $response = Http::withHeaders([
                 'Authorization' => "Bearer {$apiKey}",
