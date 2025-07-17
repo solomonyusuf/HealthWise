@@ -52,30 +52,35 @@ Route::middleware(['auth'])->group(function(){
                     'messages' => [
                         [
                             'role' => 'system',
-                            'content' => "You are a Nigerian health assistant AI. Based on the user's health profile, return a strictly structured JSON response. 
+                            'content' => "You are a Nigerian health assistant AI. Based on the user's health profile, return a  JSON response alone. 
 
                                     - The values must be dynamic and personalized based on input.  
-                                    - The diet plan must **only include Nigerian foods**.  
-                                    - Do **not** include any non-Nigerian meals.  
-                                    - Respond with JSON only — no extra explanation or formatting.  
-                                    - Follow this **exact structure** and naming:
+                                    - The diet plan must only include Nigerian foods.  
+                                    - Do not include any non-Nigerian meals.  
+                                    - Respond with only raw JSON. No code blocks. No extra text. No triple quotes.  
+                                    - Follow this exact JSON response structure and naming:
 
                                     {
+                                    'diabeties_risk' : '..respond in percentage figure alone eg 44%',
                                     'daibeties_status': 'explain something here but you must say the status diabetic or non-diabetic...',
-                                    'daily_meal_plan': {
-                                        'breakfast': {
+                                    'daily_meal_plan': 
+                                    {
+                                        'breakfast': 
+                                        {
                                         'time': '7am',
                                         'food': 'e.g., Moi Moi and pap',
                                         'food_class': 'High fiber, low fat',
                                         'marked_by_user': 'none'
                                         },
-                                        'mid_breakfast': {
+                                        'mid_breakfast': 
+                                        {
                                         'time': '10am',
                                         'food': 'e.g., boiled corn with pear',
                                         'food_class': 'Fiber-rich traditional snack',
                                         'marked_by_user': 'none'
                                         },
-                                        'lunch': {
+                                        'lunch': 
+                                        {
                                         'time': '1pm',
                                         'food': 'e.g., Ofada rice with vegetables and grilled fish',
                                         'food_class': 'Local balanced Nigerian meal',
@@ -110,6 +115,8 @@ Route::middleware(['auth'])->group(function(){
                                         'marked_by_user': 'none'
                                         }
                                     }
+
+                                    Now generate the result Respond with only raw JSON. No code blocks. No extra text. No triple quotes
                                     }"
                                             ],
                                             [
@@ -128,11 +135,16 @@ Route::middleware(['auth'])->group(function(){
             ])->post($endpoint, $payload);
 
             $result = $response['choices'][0]['message']['content'];
+            $clean = preg_replace('/^["`\s]*|["`\s]*$/', '', $result);
+
+            // Step 2: Replace single quotes with double quotes (if needed)
+            $clean = str_replace("'", '"', $clean);
+            $parsed = json_decode($clean);
             
             HealthPlan::create([
                 'user_id' => auth()?->user()?->id,
                 'info' => $input,
-                'result'=> $result
+                'result'=> $parsed
             ]);  
         
         return redirect()->route('result');

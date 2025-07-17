@@ -31,18 +31,16 @@
                             <div class="card h-100">
                                 <div class="card-header">
                                     <div class="d-flex align-items-center flex-wrap gap-2 justify-content-between">
-                                        <h6 class="mb-2 fw-bold text-lg mb-0">Glucose Tracker</h6>
+                                        <h6 class="mb-2 fw-bold text-lg mb-0">Diabeties Risk Level</h6>
                                     </div>
                                 </div>
                                 <div class="card-body p-24 d-flex align-items-center gap-16">
                                     <div id="radialMultipleBar"></div>
                                     <ul class="d-flex flex-column gap-12">
                                         <li>
-                                            <span class="text-lg">Meal Plan Analytics: <span class="text-primary-600 fw-semibold">{{$result[0]}}%</span> </span>
+                                            <span class="text-lg">Diabeties Risk Analytics: <span class="text-primary-600 fw-semibold">{{$result}}%</span> </span>
                                         </li>
-                                        <li>
-                                            <span class="text-lg">Strength Tranning Analytics:  <span class="text-warning-600 fw-semibold">{{$result[1]}}%</span> </span>
-                                        </li>
+                                      
                                          
                                     </ul>
                                 </div>

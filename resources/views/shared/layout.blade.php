@@ -180,50 +180,50 @@
     <script src="assets/js/app.js"></script>
 
     <script>
-    
-    // ================================= Multiple Radial Bar Chart Start =============================
     var options = {
-        series: [{{ $result[0] }}, {{ $result[1] }}],
+        series: [{{ $result }}],
         chart: {
             height: 300,
             type: 'radialBar',
         },
-        colors: ['#3D7FF9', '#ff9f29'], 
-        stroke: {
-            lineCap: 'round',
-        },
         plotOptions: {
             radialBar: {
                 hollow: {
-                    size: '10%',  // Adjust this value to control the bar width
+                    margin: 15,
+                    size: "70%",
                 },
                 dataLabels: {
+                    showOn: "always",
                     name: {
-                        fontSize: '16px',
+                        show: true,
+                        fontSize: "18px",
+                        color: "#333",
+                        offsetY: -10,
                     },
                     value: {
-                        fontSize: '16px',
-                    },
-                    // total: {
-                    //     show: true,
-                    //     formatter: function (w) {
-                    //         return '82%'
-                    //     }
-                    // }
-                },
-                track: {
-                    margin: 20, // Space between the bars
+                        show: true,
+                        fontSize: "20px",
+                        color: "#111",
+                        offsetY: 10,
+                        formatter: function (val) {
+                            return val + "%";
+                        }
+                    }
                 }
             }
         },
-        labels: ['Meal Plan', 'Strength Tranning '],
+        fill: {
+            colors: ['#3D7FF9']
+        },
+        stroke: {
+            lineCap: "round",
+        },
+        labels: ["Diabetes Risk"],
     };
 
-    var chart = new ApexCharts(document.querySelector("#radialMultipleBar"), options);
+    var chart = new ApexCharts(document.querySelector("#diabetesRiskChart"), options);
     chart.render();
-    // ================================= Multiple Radial Bar Chart End =============================
-
-    </script>
+</script>
 
 </body>
 
