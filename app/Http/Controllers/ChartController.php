@@ -43,7 +43,10 @@ class ChartController {
     {
         $query = HealthPlan::orderByDesc('created_at')->where(['user_id'=> auth()?->user()?->id])->first();
        
-        $first = json_decode($query->result)?->diabeties_risk;
+        $first = 0;
+        
+        if($query)
+        $first = json_decode($query?->result)?->diabeties_risk;
 
         return $first;
     }
