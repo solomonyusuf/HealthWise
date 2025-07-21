@@ -117,7 +117,7 @@
             <div class="col-12">
                 <h6 class="text-primary mb-3">Blood Test Results</h6>
             </div>
-            <div class="col-md-6">
+            {{-- <div class="col-md-6">
                 <label class="form-label">Blood Sugar Level (mg/dL)</label>
                 <div class="input-group">
                     <span class="input-group-text bg-base">🩸</span>
@@ -131,7 +131,7 @@
                     <span class="input-group-text bg-base">💉</span>
                     <input type="number" name="insulinLevel" class="form-control" placeholder="15" min="0" max="100" step="0.1">
                 </div>
-            </div>
+            </div> --}}
         </div>
 
         <!-- Blood Pressure -->
