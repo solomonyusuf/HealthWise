@@ -91,6 +91,10 @@
                 <label class="form-label">Weight (kg)</label>
                 <input type="number" name="weight" class="form-control" placeholder="70" min="20" max="300" step="0.1">
             </div>
+             <div class="col-md-6">
+                <label class="form-label">BMI</label>
+                <input type="text" name="bmi" class="form-control" placeholder="70" min="20" max="300" step="0.1">
+            </div>
             <div class="col-md-6">
                 <label class="form-label">Gender</label>
                 <div class="form-check">
@@ -113,12 +117,12 @@
         </div>
 
         <!-- Blood Tests -->
-        <div class="row gy-3 mb-4">
+        {{-- <div class="row gy-3 mb-4">
             <div class="col-12">
-                <h6 class="text-primary mb-3">Blood Test Results</h6>
+                <h6 class="text-primary mb-3">BMI Section</h6>
             </div>
-            {{-- <div class="col-md-6">
-                <label class="form-label">Blood Sugar Level (mg/dL)</label>
+            <div class="col-md-6">
+                <label class="form-label">BMI</label>
                 <div class="input-group">
                     <span class="input-group-text bg-base">🩸</span>
                     <input type="number" name="bloodSugar" class="form-control" placeholder="100" min="50" max="500">
@@ -131,8 +135,8 @@
                     <span class="input-group-text bg-base">💉</span>
                     <input type="number" name="insulinLevel" class="form-control" placeholder="15" min="0" max="100" step="0.1">
                 </div>
-            </div> --}}
-        </div>
+            </div>
+        </div> --}}
 
         <!-- Blood Pressure -->
         <div class="row gy-3 mb-4">
