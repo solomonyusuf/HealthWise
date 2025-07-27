@@ -125,6 +125,7 @@
         <label class="form-label">Mid-Upper Arm Circumference (MUAC) (cm)</label>
         <input type="number" name="muac" class="form-control" placeholder="28" min="10" max="50" step="0.1">
     </div>
+    
             <div class="col-md-6">
                 <label class="form-label">Gender</label>
                 <div class="form-check">
@@ -190,6 +191,26 @@
                 </div>
             </div>
         </div> --}}
+
+        <div class="row mt-3">
+    <!-- Systolic Blood Pressure -->
+    <div class="col-md-6">
+        <label class="form-label">Systolic Blood Pressure (mmHg) optional</label>
+        <input type="number" name="systolic_bp" class="form-control" placeholder="120" min="50" max="250" step="1">
+    </div>
+
+    <!-- Diastolic Blood Pressure -->
+    <div class="col-md-6">
+        <label class="form-label">Diastolic Blood Pressure (mmHg) optional</label>
+        <input type="number" name="diastolic_bp" class="form-control" placeholder="80" min="30" max="150" step="1">
+    </div>
+
+    <!-- Resting Heart Rate -->
+    <div class="col-md-6">
+        <label class="form-label">Resting Heart Rate (bpm) optional</label>
+        <input type="number" name="resting_hr" class="form-control" placeholder="70" min="30" max="200" step="1">
+    </div>
+</div>
 
         <!-- Physical Activity -->
         <div class="row gy-3 mb-4">
