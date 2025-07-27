@@ -284,7 +284,7 @@
     </form>
 </div>
 
-                        {{-- <form action="{{ route('ai_result') }}" method="post" id="healthAssessmentForm">
+                        <form action="{{ route('ai_result') }}" method="post" id="healthAssessmentForm">
                             @csrf
                             <!-- Basic Information -->
                             <div class="row gy-3 mb-4">
@@ -301,6 +301,40 @@
                                     <input type="number" name="weight" class="form-control" placeholder="70" min="20" max="300" step="0.1">
                                 </div>
                                 <div class="col-md-6">
+                                    <label class="form-label">BMI (kg/m²)</label>
+                                    <input type="number" name="bmi" class="form-control" placeholder="24.2" step="0.1" readonly>
+                                </div>
+
+                                <!-- Waist Circumference -->
+                                <div class="col-md-6">
+                                    <label class="form-label">Waist Circumference (cm)</label>
+                                    <input type="number" name="waist_circumference" class="form-control" placeholder="80" min="30" max="200" step="0.1">
+                                </div>
+
+                                <!-- Hip Circumference -->
+                                <div class="col-md-6">
+                                    <label class="form-label">Hip Circumference (cm)</label>
+                                    <input type="number" name="hip_circumference" class="form-control" placeholder="95" min="30" max="200" step="0.1">
+                                </div>
+
+                                <!-- Waist-to-Hip Ratio (WHR) -->
+                                <div class="col-md-6">
+                                    <label class="form-label">Waist-to-Hip Ratio (WHR)</label>
+                                    <input type="number" name="whr" class="form-control" placeholder="0.85" step="0.01" readonly>
+                                </div>
+
+                                <!-- Neck Circumference -->
+                                <div class="col-md-6">
+                                    <label class="form-label">Neck Circumference (cm)</label>
+                                    <input type="number" name="neck_circumference" class="form-control" placeholder="38" min="20" max="60" step="0.1">
+                                </div>
+
+                                <!-- Mid-Upper Arm Circumference (MUAC) -->
+                                <div class="col-md-6">
+                                    <label class="form-label">Mid-Upper Arm Circumference (MUAC) (cm)</label>
+                                    <input type="number" name="muac" class="form-control" placeholder="28" min="10" max="50" step="0.1">
+                                </div>
+                                <div class="col-md-6">
                                     <label class="form-label">Gender</label>
                                     <select name="gender" class="form-select">
                                         <option value="">Select gender</option>
@@ -312,7 +346,7 @@
                                 </div>
                             </div>
 
-                            <!-- Blood Tests -->
+                            {{-- <!-- Blood Tests -->
                             <div class="row gy-3 mb-4">
                                 <div class="col-12">
                                     <h6 class="text-primary mb-3">Blood Test Results</h6>
@@ -363,7 +397,7 @@
                                         <span class="input-group-text bg-base">mmHg</span>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
 
                             <!-- Physical Activity -->
                             <div class="row gy-3 mb-4">
@@ -469,7 +503,7 @@
                                     </button>
                                 </div>
                             </div>
-                        </form> --}}
+                        </form>
                     </div>
                 </div>
             </div>
