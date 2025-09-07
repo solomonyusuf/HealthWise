@@ -435,6 +435,11 @@
         </div>
     </section>
 
+    <!-- Print Recommendations Button -->
+    <button id="print-recommendations" class="print-recommendations-btn" onclick="printRecommendations()">
+        📄 Print Report
+    </button>
+
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
@@ -488,8 +493,20 @@
                 <p class="modal-description">Complete this detailed assessment to analyze your personalized health insights and recommendations.</p>
             
             <form id="vitals-form">
+                <!-- Progress indicator -->
+                <div class="form-progress">
+                    <div class="progress-steps">
+                        <div class="step active" data-step="1">Personal Info</div>
+                        <div class="step" data-step="2">Health Metrics</div>
+                        <div class="step" data-step="3">Lifestyle</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 33.33%"></div>
+                    </div>
+                </div>
+                
                 <!-- Personal Information Section -->
-                <div class="form-section">
+                <div class="form-section active" data-section="1">
                     <h4 class="section-title">👤 Personal Information</h4>
                     
                     <div class="form-row">
@@ -520,8 +537,16 @@
                     </div>
                 </div>
 
+                
+                <!-- Navigation buttons for sections -->
+                <div class="section-navigation">
+                    <button type="button" class="btn btn-secondary" onclick="previousSection()" style="display: none;">Previous</button>
+                    <button type="button" class="btn btn-primary" onclick="nextSection()">Next</button>
+                </div>
+                </div>
+
                 <!-- Health Metrics Section -->
-                <div class="form-section">
+                <div class="form-section" data-section="2">
                     <h4 class="section-title">🏥 Health Metrics</h4>
                     
                     <div class="form-row">
@@ -534,10 +559,16 @@
                             <input type="number" id="systolic-bp" name="systolicBP" min="70" max="200" placeholder="Enter systolic blood pressure" required>
                         </div>
                     </div>
+                    
+                    <!-- Navigation buttons for sections -->
+                    <div class="section-navigation">
+                        <button type="button" class="btn btn-secondary" onclick="previousSection()">Previous</button>
+                        <button type="button" class="btn btn-primary" onclick="nextSection()">Next</button>
+                    </div>
                 </div>
 
                 <!-- Lifestyle Assessment Section -->
-                <div class="form-section">
+                <div class="form-section" data-section="3">
                     <h4 class="section-title">🏃 Lifestyle Assessment</h4>
                     
                     <div class="form-group">
@@ -610,11 +641,19 @@
                         <textarea id="family-history" name="familyHistory" rows="4" placeholder="Please describe any family history of diabetes, including relationship (parent, sibling, grandparent) and type of diabetes if known..."></textarea>
                         <p class="field-description">Detailed family medical history helps improve risk assessment</p>
                     </div>
+                    
+                    <!-- Final navigation buttons -->
+                    <div class="section-navigation">
+                        <button type="button" class="btn btn-secondary" onclick="previousSection()">Previous</button>
+                        <div class="final-submit">
+                            <button class="btn btn-primary btn-analyze" onclick="saveVitals()">🔍 Analyze My Health Profile</button>
+                        </div>
+                    </div>
                 </div>
 
             </form>
         </div>
-        <div class="modal-footer">
+        <div class="modal-footer" style="display: none;">
             <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
             <button class="btn btn-primary btn-analyze" onclick="saveVitals()">🔍 Analyze My Health Profile</button>
         </div>

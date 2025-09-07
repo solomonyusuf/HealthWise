@@ -1172,13 +1172,20 @@ textarea:focus {
   .navbar,
   .hero-buttons,
   .contact-form,
-  .modal-overlay {
-    display: none;
+  .modal-overlay,
+  .print-recommendations-btn,
+  .section-navigation,
+  .form-progress,
+  .modal-header,
+  .modal-footer {
+    display: none !important;
   }
 
   body {
     font-size: 12pt;
     line-height: 1.4;
+    color: #000 !important;
+    background: white !important;
   }
 
   .hero {
@@ -1188,6 +1195,176 @@ textarea:focus {
   .section-title {
     font-size: 18pt;
     margin-bottom: 10pt;
+    color: #000 !important;
+  }
+
+  /* AI Dashboard print styling */
+  .ai-dashboard {
+    display: block !important;
+    page-break-inside: avoid;
+  }
+
+  .ai-dashboard-grid {
+    display: block !important;
+  }
+
+  .dashboard-card {
+    page-break-inside: avoid;
+    margin-bottom: 20pt;
+    border: 1px solid #ddd !important;
+    box-shadow: none !important;
+  }
+
+  .card-header {
+    background: #f5f5f5 !important;
+    border-bottom: 1px solid #ddd !important;
+    padding: 12pt !important;
+  }
+
+  .card-title {
+    font-size: 14pt !important;
+    font-weight: bold !important;
+    color: #000 !important;
+  }
+
+  /* Recommendations print styling */
+  .recommendations-list {
+    display: block !important;
+  }
+
+  .recommendation-item {
+    margin-bottom: 12pt !important;
+    padding: 8pt !important;
+    border: 1px solid #ddd !important;
+    page-break-inside: avoid;
+    background: white !important;
+  }
+
+  .recommendation-item strong {
+    font-size: 12pt !important;
+    color: #000 !important;
+  }
+
+  .recommendation-item p,
+  .recommendation-item .timeframe {
+    color: #333 !important;
+    font-size: 11pt !important;
+  }
+
+  .priority-high {
+    border-left: 4px solid #dc2626 !important;
+  }
+
+  .priority-medium {
+    border-left: 4px solid #f59e0b !important;
+  }
+
+  .priority-low {
+    border-left: 4px solid #10b981 !important;
+  }
+
+  /* Hide interactive elements in print */
+  .btn-toggle-completion {
+    display: none !important;
+  }
+
+  /* Analysis summary print styling */
+  .analysis-text {
+    font-size: 11pt !important;
+    line-height: 1.5 !important;
+    color: #000 !important;
+  }
+
+  .risk-badge {
+    display: inline-block !important;
+    padding: 4pt 8pt !important;
+    border: 1px solid #ddd !important;
+    background: white !important;
+    color: #000 !important;
+    font-size: 10pt !important;
+  }
+
+  .score-number-small {
+    color: #000 !important;
+    font-size: 24pt !important;
+  }
+
+  /* Meal plan print styling */
+  .meal-plan-modal .modal-body {
+    display: block !important;
+    max-height: none !important;
+  }
+
+  .meal-plan-day {
+    page-break-inside: avoid;
+    margin-bottom: 16pt !important;
+  }
+
+  .meal-plan-day h4 {
+    font-size: 16pt !important;
+    color: #000 !important;
+    margin-bottom: 8pt !important;
+  }
+
+  .meal-type h5 {
+    font-size: 14pt !important;
+    color: #000 !important;
+    margin-bottom: 6pt !important;
+  }
+
+  .meal-type li {
+    margin-bottom: 6pt !important;
+    padding: 6pt !important;
+    border: 1px solid #eee !important;
+    background: white !important;
+  }
+
+  .meal-type li strong {
+    color: #000 !important;
+  }
+
+  .meal-type li p,
+  .meal-type li span {
+    color: #333 !important;
+  }
+
+  /* Charts - hide complex visuals, show data */
+  .charts-container {
+    display: block !important;
+  }
+
+  .chart-item {
+    margin-bottom: 12pt !important;
+  }
+
+  .bar-chart {
+    display: none !important;
+  }
+
+  .chart-description {
+    display: block !important;
+    color: #000 !important;
+  }
+
+  /* Add print header */
+  body::before {
+    content: "HealthWise - Personal Health Report";
+    display: block;
+    font-size: 20pt;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20pt;
+    padding-bottom: 10pt;
+    border-bottom: 2px solid #000;
+  }
+
+  /* Add print footer with page numbers */
+  @page {
+    margin: 1in;
+    @bottom-right {
+      content: "Page " counter(page);
+      font-size: 10pt;
+    }
   }
 }
 
@@ -1635,5 +1812,237 @@ textarea:focus {
   }
   .meal-plan-modal {
     width: 95%;
+  }
+}
+
+/* Enhanced Form Styling and Progress Indicator */
+.form-progress {
+  margin-bottom: var(--spacing-xl);
+  padding: var(--spacing-lg) 0;
+}
+
+.progress-steps {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-md);
+  position: relative;
+}
+
+.step {
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--text-light);
+  background: var(--background-secondary);
+  border: 2px solid var(--border-color);
+  position: relative;
+  z-index: 2;
+  transition: var(--transition-normal);
+  cursor: pointer;
+}
+
+.step.active {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+.step.completed {
+  background: var(--success-color);
+  color: white;
+  border-color: var(--success-color);
+}
+
+.progress-bar {
+  width: 100%;
+  height: 4px;
+  background: var(--background-secondary);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: var(--spacing-sm);
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--primary-color);
+  border-radius: 2px;
+  transition: width 0.5s ease;
+}
+
+.form-section {
+  display: none;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.form-section.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.section-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--spacing-xl);
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--border-color);
+}
+
+.final-submit {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.section-title {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  margin-bottom: var(--spacing-lg);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+/* Enhanced form input styling */
+.form-group label {
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-sm);
+  display: block;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+}
+
+/* Loading state for analyze button */
+.btn-analyze.loading {
+  position: relative;
+  color: transparent !important;
+  pointer-events: none;
+}
+
+.btn-analyze.loading::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Modal enhancements */
+.modal {
+  max-width: 700px;
+  width: 95%;
+}
+
+.modal-body {
+  max-height: 80vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-color) var(--background-secondary);
+}
+
+/* Webkit scrollbar styling */
+.modal-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+  background: var(--background-secondary);
+  border-radius: 4px;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 4px;
+}
+
+.modal-body::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-dark);
+}
+
+/* Print button for recommendations */
+.print-recommendations-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: var(--spacing-md) var(--spacing-lg);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  box-shadow: var(--shadow-lg);
+  cursor: pointer;
+  transition: var(--transition-normal);
+  z-index: 1000;
+  display: none;
+}
+
+.print-recommendations-btn:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-xl);
+}
+
+.print-recommendations-btn.visible {
+  display: block;
+}
+
+/* Responsive adjustments for enhanced form */
+@media (max-width: 768px) {
+  .progress-steps {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+  
+  .step {
+    text-align: center;
+  }
+  
+  .section-navigation {
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+  
+  .final-submit {
+    width: 100%;
+  }
+  
+  .final-submit .btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal {
+    width: 98%;
+    margin: 1%;
+  }
+  
+  .modal-body {
+    padding: var(--spacing-md);
   }
 }

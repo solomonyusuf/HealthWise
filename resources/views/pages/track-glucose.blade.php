@@ -24,22 +24,26 @@
             padding: 0.375rem 0.75rem;
         }
         .form-control:focus, .form-select:focus {
-            border-color: #86b7fe;
-            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+            border-color: #10b981;
+            box-shadow: 0 0 0 0.25rem rgba(16, 185, 129, 0.25);
+        }
+        .form-control::placeholder, .form-select::placeholder {
+            color: #9ca3af;
+            opacity: 1;
         }
         .input-group-text {
             border: 1px solid #ced4da;
             padding: 0.375rem 0.75rem;
         }
         .btn-primary {
-            background-color: #0ea5e9;
-            border-color: #0ea5e9;
+            background-color: #10b981;
+            border-color: #10b981;
             padding: 0.75rem 2rem;
             font-weight: 500;
         }
         .btn-primary:hover {
-            background-color: #0284c7;
-            border-color: #0284c7;
+            background-color: #059669;
+            border-color: #059669;
         }
         .text-sm {
             font-size: 0.875rem;

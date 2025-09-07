@@ -5,6 +5,12 @@
   $result =  App\Http\Controllers\ChartController::generate_activity();
   
   $chart =  App\Http\Controllers\ChartController::generate_chart(); 
+  
+  $bmiChart = App\Http\Controllers\ChartController::generate_bmi_chart();
+  
+  $heartRateChart = App\Http\Controllers\ChartController::generate_heart_rate_chart();
+  
+  $medicationChart = App\Http\Controllers\ChartController::generate_medication_chart();
 @endphp
  <div class="dashboard-main-body">
 
@@ -60,6 +66,49 @@
                             </div>
                             
                         </div>
+                        
+                        <!-- BMI Progress Chart -->
+                        <div class="col-xxl-6">
+                            <div class="card h-100">
+                                <div class="card-header">
+                                    <div class="d-flex align-items-center flex-wrap gap-2 justify-content-between">
+                                        <h6 class="mb-2 fw-bold text-lg mb-0">BMI Progress</h6>
+                                    </div>
+                                </div>
+                                <div class="card-body p-24">
+                                    {!! $bmiChart->container() !!}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Heart Rate Trend Chart -->
+                        <div class="col-xxl-6">
+                            <div class="card h-100">
+                                <div class="card-header">
+                                    <div class="d-flex align-items-center flex-wrap gap-2 justify-content-between">
+                                        <h6 class="mb-2 fw-bold text-lg mb-0">Heart Rate Trend</h6>
+                                    </div>
+                                </div>
+                                <div class="card-body p-24">
+                                    {!! $heartRateChart->container() !!}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Medication Adherence Chart -->
+                        <div class="col-xxl-6">
+                            <div class="card h-100">
+                                <div class="card-header">
+                                    <div class="d-flex align-items-center flex-wrap gap-2 justify-content-between">
+                                        <h6 class="mb-2 fw-bold text-lg mb-0">Medication Adherence</h6>
+                                    </div>
+                                </div>
+                                <div class="card-body p-24">
+                                    {!! $medicationChart->container() !!}
+                                </div>
+                            </div>
+                        </div>
+                        
                         <!-- Patient Visited by Depertment -->
                     </div>
                 </div>
@@ -67,4 +116,7 @@
             </div>
     </div>
         {!! $chart->script() !!}
+        {!! $bmiChart->script() !!}
+        {!! $heartRateChart->script() !!}
+        {!! $medicationChart->script() !!}
 @endsection
