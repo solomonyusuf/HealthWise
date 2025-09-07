@@ -1,6 +1,7 @@
 @php
 
   $result =  App\Http\Controllers\ChartController::generate_activity();
+  $currentYear = date('Y');
 
    
 @endphp
@@ -144,7 +145,7 @@
         <footer class="d-footer">
             <div class="row align-items-center justify-content-between">
                 <div class="col-auto">
-                    <p class="mb-0">© 2024 HealthWise. All Rights Reserved.</p>
+                    <p class="mb-0">© {{ $currentYear }} HealthWise. All Rights Reserved.</p>
                 </div>
 
             </div>
