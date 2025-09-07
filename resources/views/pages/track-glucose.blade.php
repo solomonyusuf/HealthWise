@@ -67,6 +67,42 @@
             font-weight: 600;
             color: #1f2937;
         }
+        .is-invalid {
+            border-color: #dc3545;
+            box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+        }
+        .text-danger {
+            color: #dc3545;
+        }
+        .readonly-field {
+            background-color: #f8f9fa;
+            cursor: not-allowed;
+        }
+        fieldset {
+            border: none;
+            margin: 0;
+            padding: 0;
+        }
+        legend {
+            border: none;
+            margin-bottom: 0.5rem;
+            padding: 0;
+            width: auto;
+            font-size: inherit;
+        }
+        @media (max-width: 768px) {
+            .container {
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+            .col-lg-8 {
+                padding-left: 0;
+                padding-right: 0;
+            }
+            .form-check-label {
+                font-size: 0.9rem;
+            }
+        }
     </style>
  
     <div class="container py-5">
@@ -77,27 +113,36 @@
                         <h4 class="card-title mb-0">Comprehensive Health Assessment</h4>
                     </div>
                     <div class="card-body">
-                        <div class="card-body">
-    <form action="{{ route('ai_result') }}" method="post" id="healthAssessmentForm">
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul class="mb-0">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        
+                        <form action="{{ route('ai_result') }}" method="post" id="healthAssessmentForm">
         @csrf
 
         <!-- Basic Information -->
         <div class="row gy-3 mb-4">
             <div class="col-md-6">
-                <label class="form-label">Age (years)</label>
-                <input type="number" name="age" class="form-control" placeholder="35" min="1" max="120">
+                <label class="form-label">Age (years) <span class="text-danger">*</span></label>
+                <input type="number" name="age" class="form-control" placeholder="35" min="1" max="120" required>
             </div>
             <div class="col-md-6">
-                <label class="form-label">Height (cm)</label>
-                <input type="number" name="height" class="form-control" placeholder="170" min="50" max="250">
+                <label class="form-label">Height (cm) <span class="text-danger">*</span></label>
+                <input type="number" name="height" class="form-control" placeholder="170" min="50" max="250" required>
             </div>
             <div class="col-md-6">
-                <label class="form-label">Weight (kg)</label>
-                <input type="number" name="weight" class="form-control" placeholder="70" min="20" max="300" step="0.1">
+                <label class="form-label">Weight (kg) <span class="text-danger">*</span></label>
+                <input type="number" name="weight" class="form-control" placeholder="70" min="20" max="300" step="0.1" required>
             </div>
              <div class="col-md-6">
         <label class="form-label">BMI (kg/m²)</label>
-        <input type="number" name="bmi" class="form-control" placeholder="24.2" step="0.1" readonly>
+        <input type="number" name="bmi" class="form-control readonly-field" placeholder="Auto-calculated" step="0.1" readonly>
     </div>
 
     <!-- Waist Circumference -->
@@ -115,7 +160,7 @@
     <!-- Waist-to-Hip Ratio (WHR) -->
     <div class="col-md-6">
         <label class="form-label">Waist-to-Hip Ratio (WHR)</label>
-        <input type="number" name="whr" class="form-control" placeholder="0.85" step="0.01" readonly>
+        <input type="number" name="whr" class="form-control readonly-field" placeholder="Auto-calculated" step="0.01" readonly>
     </div>
 
     <!-- Neck Circumference -->
@@ -219,34 +264,37 @@
         <!-- Physical Activity -->
         <div class="row gy-3 mb-4">
             <div class="col-12">
-                <label class="form-label">Physical Activity Level</label>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="activityLevel[]" value="sedentary" id="activitySedentary">
+                <fieldset>
+                    <legend class="form-label">Physical Activity Level <span class="text-danger">*</span></legend>
+                    <div class="form-check">
+                    <input class="form-check-input" type="radio" name="activityLevel" value="sedentary" id="activitySedentary">
                     <label class="form-check-label px-4" for="activitySedentary">Sedentary</label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="activityLevel[]" value="lightly-active" id="activityLight">
+                    <input class="form-check-input" type="radio" name="activityLevel" value="lightly-active" id="activityLight">
                     <label class="form-check-label px-4" for="activityLight">Lightly Active</label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="activityLevel[]" value="moderately-active" id="activityModerate">
+                    <input class="form-check-input" type="radio" name="activityLevel" value="moderately-active" id="activityModerate">
                     <label class="form-check-label px-4" for="activityModerate">Moderately Active</label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="activityLevel[]" value="very-active" id="activityVery">
+                    <input class="form-check-input" type="radio" name="activityLevel" value="very-active" id="activityVery">
                     <label class="form-check-label px-4" for="activityVery">Very Active</label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="activityLevel[]" value="extremely-active" id="activityExtreme">
+                    <input class="form-check-input" type="radio" name="activityLevel" value="extremely-active" id="activityExtreme">
                     <label class="form-check-label px-4" for="activityExtreme">Extremely Active</label>
                 </div>
+                </fieldset>
             </div>
         </div>
 
         <!-- Lifestyle Factors -->
         <div class="row gy-3 mb-4">
             <div class="col-12">
-                <label class="form-label">Lifestyle Factors</label>
+                <fieldset>
+                    <legend class="form-label">Lifestyle Factors (Select all that apply)</legend>
                 @php
                     $lifestyleOptions = [
                         'smoking' => 'Smoking',
@@ -263,13 +311,15 @@
                         <label class="form-check-label px-4" for="life_{{ $val }}">{{ $label }}</label>
                     </div>
                 @endforeach
+                </fieldset>
             </div>
         </div>
 
         <!-- Co-morbidities -->
         <div class="row gy-3 mb-4">
             <div class="col-12">
-                <label class="form-label">Co-morbidities</label>
+                <fieldset>
+                    <legend class="form-label">Co-morbidities (Select all that apply)</legend>
                 @php
                     $comorbidities = [
                         'hypertension' => 'Hypertension',
@@ -289,6 +339,7 @@
                         <label class="form-check-label px-4" for="co_{{ $val }}">{{ $label }}</label>
                     </div>
                 @endforeach
+                </fieldset>
             </div>
         </div>
 
@@ -336,10 +387,7 @@
                 <button type="submit" class="btn btn-primary btn-lg">📋 Submit Health Information</button>
             </div>
         </div>
-    </form>
-</div>
-
-                       
+        </form>
                     </div>
                 </div>
             </div>
@@ -347,6 +395,87 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
- 
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const heightInput = document.querySelector('input[name="height"]');
+            const weightInput = document.querySelector('input[name="weight"]');
+            const bmiInput = document.querySelector('input[name="bmi"]');
+            const waistInput = document.querySelector('input[name="waist_circumference"]');
+            const hipInput = document.querySelector('input[name="hip_circumference"]');
+            const whrInput = document.querySelector('input[name="whr"]');
+
+            // Calculate BMI
+            function calculateBMI() {
+                const height = parseFloat(heightInput.value);
+                const weight = parseFloat(weightInput.value);
+                
+                if (height && weight && height > 0) {
+                    const heightInMeters = height / 100;
+                    const bmi = weight / (heightInMeters * heightInMeters);
+                    bmiInput.value = bmi.toFixed(1);
+                } else {
+                    bmiInput.value = '';
+                }
+            }
+
+            // Calculate WHR (Waist-to-Hip Ratio)
+            function calculateWHR() {
+                const waist = parseFloat(waistInput.value);
+                const hip = parseFloat(hipInput.value);
+                
+                if (waist && hip && hip > 0) {
+                    const whr = waist / hip;
+                    whrInput.value = whr.toFixed(2);
+                } else {
+                    whrInput.value = '';
+                }
+            }
+
+            // Add event listeners
+            heightInput.addEventListener('input', calculateBMI);
+            weightInput.addEventListener('input', calculateBMI);
+            waistInput.addEventListener('input', calculateWHR);
+            hipInput.addEventListener('input', calculateWHR);
+
+            // Form validation
+            const form = document.getElementById('healthAssessmentForm');
+            form.addEventListener('submit', function(e) {
+                const requiredFields = form.querySelectorAll('input[required], select[required]');
+                let hasErrors = false;
+
+                // Check required fields
+                requiredFields.forEach(field => {
+                    if (!field.value.trim()) {
+                        field.classList.add('is-invalid');
+                        hasErrors = true;
+                    } else {
+                        field.classList.remove('is-invalid');
+                    }
+                });
+
+                // Check if at least one gender is selected
+                const genderInputs = form.querySelectorAll('input[name="gender"]');
+                const genderSelected = Array.from(genderInputs).some(input => input.checked);
+                if (!genderSelected) {
+                    hasErrors = true;
+                    alert('Please select your gender.');
+                }
+
+                if (hasErrors) {
+                    e.preventDefault();
+                    alert('Please fill in all required fields.');
+                    return false;
+                }
+
+                // Show loading state
+                const submitBtn = form.querySelector('button[type="submit"]');
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '⏳ Processing...';
+                
+                return true;
+            });
+        });
+    </script>
 
 @endsection

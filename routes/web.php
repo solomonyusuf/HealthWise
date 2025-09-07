@@ -38,11 +38,11 @@ Route::middleware(['auth'])->group(function(){
 
     })->name('result');
 
-    Route::post('/generate-result', function (Request $request) {
+    Route::post('/generate-result', function (App\Http\Requests\HealthAssessmentRequest $request) {
         $endpoint = env('GITHUB_MODEL_ENDPOINT');
             $apiKey   = env('GITHUB_MODEL_KEY');
             $model    = env('GITHUB_MODEL_NAME');
-            $input = json_encode($request->all());
+            $input = json_encode($request->validated());
 
             if($request?->result)
             $input = json_encode(HealthPlan::find($request?->result)?->info);
@@ -61,8 +61,8 @@ Route::middleware(['auth'])->group(function(){
                                     - Follow this exact JSON response structure and naming:
 
                                     {
-                                    'diabeties_risk' : '..respond in percentage figure alone eg 44%',
-                                    'daibeties_status': 'explain something here but you must say the status diabetic or non-diabetic...',
+                                    'diabetes_risk' : '..respond in percentage figure alone eg 44%',
+                                    'diabetes_status': 'explain something here but you must say the status diabetic or non-diabetic...',
                                     'daily_meal_plan': 
                                     {
                                         'breakfast': 
@@ -100,14 +100,14 @@ Route::middleware(['auth'])->group(function(){
                                         }
                                     },
                                     'physical_activity': {
-                                        'aerobic_excercise': {
+                                        'aerobic_exercise': {
                                         'walk': 'e.g., 20 minutes, 3 days/week',
                                         'action_1': 'e.g., walking around compound',
                                         'action_2': 'e.g., dancing to music indoors',
                                         'action_3': 'e.g., climbing stairs',
                                         'marked_by_user': 'none'
                                         },
-                                        'strength_tranning': {
+                                        'strength_training': {
                                         'duration': '15-20 minutes, 3 days/week',
                                         'action_1': 'e.g., using water bottles as weights',
                                         'action_2': 'e.g., chair squats',
@@ -145,13 +145,29 @@ Route::middleware(['auth'])->group(function(){
 
             // Step 2: Replace single quotes with double quotes (if needed)
             $clean = str_replace("'", '"', $clean);
-            $parsed = json_decode($clean);
             
-            HealthPlan::create([
-                'user_id' => auth()?->user()?->id,
-                'info' => $input,
-                'result'=> json_encode($parsed)
-            ]);  
+            // Try to decode JSON and handle errors
+            $parsed = json_decode($clean);
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                // If JSON is invalid, log the error and return with message
+                \Log::error('Invalid JSON from AI response: ' . json_last_error_msg(), ['response' => $clean]);
+                return back()->withErrors(['error' => 'AI service returned invalid data. Please try again.']);
+            }
+
+            if (!$parsed) {
+                return back()->withErrors(['error' => 'Failed to process AI response. Please try again.']);
+            }
+            
+            try {
+                HealthPlan::create([
+                    'user_id' => auth()->user()->id,
+                    'info' => $input,
+                    'result'=> json_encode($parsed)
+                ]);
+            } catch (\Exception $e) {
+                \Log::error('Failed to save health plan: ' . $e->getMessage());
+                return back()->withErrors(['error' => 'Failed to save your assessment. Please try again.']);
+            }  
         
         return redirect()->route('result');
 
@@ -173,9 +189,9 @@ Route::middleware(['auth'])->group(function(){
             $result->daily_meal_plan->dinner->marked_by_user = 'yes'; 
         
         if($request->aerobic_mark)
-            $result->physical_activity->aerobic_excercise->marked_by_user = 'yes'; 
-        if($request->strength_tranning_mark)
-            $result->physical_activity->strength_tranning->marked_by_user = 'yes'; 
+            $result->physical_activity->aerobic_exercise->marked_by_user = 'yes'; 
+        if($request->strength_training_mark)
+            $result->physical_activity->strength_training->marked_by_user = 'yes'; 
 
         $entity->result = json_encode($result);
 

@@ -77,8 +77,8 @@ class ChartController {
                 $first++;
             }
 
-            if (isset($entity->physical_activity->aerobic_excercise->marked_by_user) && 
-                $entity->physical_activity->aerobic_excercise->marked_by_user != 'none') {
+            if (isset($entity->physical_activity->aerobic_exercise->marked_by_user) && 
+                $entity->physical_activity->aerobic_exercise->marked_by_user != 'none') {
                 $second++;
             }
         }
