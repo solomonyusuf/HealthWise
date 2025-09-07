@@ -66,12 +66,19 @@ class ChartController {
 
         foreach ($query as $data) {
             $entity = json_decode($data->result);
+            
+            // Skip if JSON decode failed or entity is null
+            if (!$entity) {
+                continue;
+            }
 
-            if ($entity->daily_meal_plan->breakfast->marked_by_user != 'none') {
+            if (isset($entity->daily_meal_plan->breakfast->marked_by_user) && 
+                $entity->daily_meal_plan->breakfast->marked_by_user != 'none') {
                 $first++;
             }
 
-            if ($entity->physical_activity->aerobic_excercise->marked_by_user != 'none') {
+            if (isset($entity->physical_activity->aerobic_excercise->marked_by_user) && 
+                $entity->physical_activity->aerobic_excercise->marked_by_user != 'none') {
                 $second++;
             }
         }

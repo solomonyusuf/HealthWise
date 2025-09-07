@@ -134,7 +134,13 @@ Route::middleware(['auth'])->group(function(){
                 'Accept'        => 'application/json',
             ])->post($endpoint, $payload);
 
-            $result = $response['choices'][0]['message']['content'];
+            $responseData = $response->json();
+            
+            if (!$response->successful() || !isset($responseData['choices'][0]['message']['content'])) {
+                return back()->withErrors(['error' => 'Failed to generate health plan. Please try again.']);
+            }
+            
+            $result = $responseData['choices'][0]['message']['content'];
             $clean = preg_replace('/^["`\s]*|["`\s]*$/', '', $result);
 
             // Step 2: Replace single quotes with double quotes (if needed)
