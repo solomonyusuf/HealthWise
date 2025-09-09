@@ -672,17 +672,17 @@
                             <div class="d-flex align-items-center mb-3 gap-2">
                                 <img src="https://img.icons8.com/?size=100&id=lWxomrjfCAvF&format=png&color=000000" style="height:25px;" />
                                 <h5 class="card-title mb-0 me-auto">Aerobic Exercise</h5>
-                                <span class="badge activity-badge">{{ $result->physical_activity->aerobic_excercise->walk }}</span>
+                                <span class="badge activity-badge">{{ $result->physical_activity->aerobic_exercise->walk }}</span>
                             </div>
                             <div class="d-flex flex-wrap">
-                                <span class="activity-item">{{ $result->physical_activity->aerobic_excercise->action_1 }}</span>
-                                <span class="activity-item">{{ $result->physical_activity->aerobic_excercise->action_2 }}</span>
-                                <span class="activity-item">{{ $result->physical_activity->aerobic_excercise->action_3 }}</span>
+                                <span class="activity-item">{{ $result->physical_activity->aerobic_exercise->action_1 }}</span>
+                                <span class="activity-item">{{ $result->physical_activity->aerobic_exercise->action_2 }}</span>
+                                <span class="activity-item">{{ $result->physical_activity->aerobic_exercise->action_3 }}</span>
                             </div>
-                               @if($result->physical_activity->aerobic_excercise->marked_by_user != 'yes')
+                               @if($result->physical_activity->aerobic_exercise->marked_by_user != 'yes')
                                <form action="{{ route('update_result', $plan->id) }}" method="POST">
                                 @csrf
-                                <input value="{{  $result->physical_activity->aerobic_excercise->marked_by_user }}" name="aerobic_mark" hidden />
+                                <input value="{{  $result->physical_activity->aerobic_exercise->marked_by_user }}" name="aerobic_mark" hidden />
                                 <button type="submit" class="badge bg-primary">Mark Done</button>
                                </form>
                                 @else
@@ -696,17 +696,17 @@
                             <div class="d-flex align-items-center mb-3">
                                 <img src="https://img.icons8.com/?size=100&id=hTHAYPHiE9Ze&format=png&color=000000" style="height:25px;" />
                                 <h5 class="card-title mb-0 me-auto">Strength Training</h5>
-                                <span class="badge activity-badge">{{ $result->physical_activity->strength_tranning->duration }}</span>
+                                <span class="badge activity-badge">{{ $result->physical_activity->strength_training->duration }}</span>
                             </div>
                             <div class="d-flex flex-wrap">
-                                <span class="activity-item">{{ $result->physical_activity->strength_tranning->action_1 }}</span>
-                                <span class="activity-item">{{ $result->physical_activity->strength_tranning->action_2 }}</span>
-                                <span class="activity-item">{{ $result->physical_activity->strength_tranning->action_3 }}</span>
+                                <span class="activity-item">{{ $result->physical_activity->strength_training->action_1 }}</span>
+                                <span class="activity-item">{{ $result->physical_activity->strength_training->action_2 }}</span>
+                                <span class="activity-item">{{ $result->physical_activity->strength_training->action_3 }}</span>
                             </div>
-                             @if($result->physical_activity->strength_tranning->marked_by_user != 'yes')
+                             @if($result->physical_activity->strength_training->marked_by_user != 'yes')
                              <form action="{{ route('update_result', $plan->id) }}" method="POST">
                                 @csrf
-                                   <input value="{{  $result->physical_activity->strength_tranning->marked_by_user }}" name="strength_tranning_mark" hidden />
+                                   <input value="{{  $result->physical_activity->strength_training->marked_by_user }}" name="strength_training_mark" hidden />
                                 <button type="submit" class="badge bg-primary">Mark Done</button>
                              </form>
                                 @else
@@ -726,8 +726,8 @@
                             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                         </svg>
                         <div>
-                            <strong>Diabeties Status:</strong>
-                             {{ $result?->daibeties_status }}
+                            <strong>Diabetes Status:</strong>
+                             {{ $result?->diabetes_status }}
                         </div>
                     </div>
                 </div>

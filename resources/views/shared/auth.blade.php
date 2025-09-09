@@ -8,7 +8,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #10b981 0%, #3b82f6 100%);
             min-height: 100vh;
         }
         .auth-card {
@@ -18,7 +18,7 @@
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
         }
         .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #10b981 0%, #3b82f6 100%);
             border: none;
             border-radius: 25px;
             padding: 12px 30px;
@@ -36,8 +36,12 @@
             padding: 12px 20px;
         }
         .form-control:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+            border-color: #10b981;
+            box-shadow: 0 0 0 0.2rem rgba(16, 185, 129, 0.25);
+        }
+        .form-control::placeholder {
+            color: #9ca3af;
+            opacity: 1;
         }
     </style>
 </head>

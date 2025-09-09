@@ -2,97 +2,224 @@
 namespace App\Http\Controllers;
 
 use ConsoleTVs\Charts\Classes\Chartjs\Chart;
-use App\Models\HealthPlan;
-
+use App\Services\ChartService;
+use Illuminate\Support\Facades\Log;
 
 class ChartController {
 
-    // public static function generate_activity()
-    // {
-    //     $query = HealthPlan::where(['user_id'=> auth()->user()->id])->get();
-       
-    //     $first = 0;
-    //     $second = 0;
+    protected $chartService;
 
-    //     foreach ($query as $data) 
-    //     {
-    //         $entity = json_decode($data->result);
-
-    //         if($entity->daily_meal_plan->breakfast->marked_by_user != 'none')
-    //         {
-    //             $first++;
-    //         }
-
-            
-    //         if($entity->physical_activity->aerobic_excercise->marked_by_user != 'none')
-    //         {
-    //             $second++;
-    //         }
-    //     }
-
-
-    //     $total_first = ($first/100) * $query->count();
-    //     $total_second = ($second/100) * $query->count();
-
-
-    //     return [$total_first, $total_second];
-
-    // }
-
-     public static function generate_activity()
+    public function __construct(ChartService $chartService)
     {
-        $query = HealthPlan::orderByDesc('created_at')
-            ->where('user_id', auth()?->user()?->id)
-            ->first();
-
-        $first = 0;
-
-        if ($query?->result) {
-            $risk = json_decode($query->result)?->diabeties_risk ?? '0%';
-
-            // Remove the percentage symbol and cast to integer
-            $first = $risk;
-        }
-
-        return $first;
+        $this->chartService = $chartService;
     }
 
-    public static function generate_chart()
+
+    public function generate_activity()
     {
-        $query = HealthPlan::where(['user_id' => auth()->user()->id])->get();
-
-        $first = 0;
-        $second = 0;
-
-        foreach ($query as $data) {
-            $entity = json_decode($data->result);
-
-            if ($entity->daily_meal_plan->breakfast->marked_by_user != 'none') {
-                $first++;
-            }
-
-            if ($entity->physical_activity->aerobic_excercise->marked_by_user != 'none') {
-                $second++;
-            }
+        try {
+            $diabetesRisk = $this->chartService->getDiabetesRisk();
+            return $diabetesRisk['value'] . '%';
+        } catch (\Exception $e) {
+            Log::error('Error generating diabetes risk activity: ' . $e->getMessage());
+            return '0%';
         }
+    }
 
-        // Percentage of total entries
-        $total_first = $query->count() > 0 ? ($first / $query->count()) * 100 : 0;
-        $total_second = $query->count() > 0 ? ($second / $query->count()) * 100 : 0;
+    public function generate_chart()
+    {
+        try {
+            $complianceData = $this->chartService->getGlucoseExerciseData();
+            
+            $chart = new Chart;
+            $chart->labels($complianceData['labels'])
+                ->dataset('User Compliance (%)', 'line', $complianceData['data'])
+                ->options([
+                    'backgroundColor' => $complianceData['hasData'] ? 'rgba(75, 192, 192, 0.2)' : 'rgba(200, 200, 200, 0.2)',
+                    'borderColor' => $complianceData['hasData'] ? 'rgba(75, 192, 192, 1)' : 'rgba(150, 150, 150, 1)',
+                    'fill' => true,
+                    'tension' => 0.4,
+                ]);
 
-        // Create chart
-        $chart = new Chart;
+            return $chart;
+        } catch (\Exception $e) {
+            Log::error('Error generating glucose exercise chart: ' . $e->getMessage());
+            
+            // Return empty chart as fallback
+            $chart = new Chart;
+            $chart->labels(['Meal Plan Followed', 'Exercise Done'])
+                ->dataset('User Compliance (%)', 'line', [0, 0])
+                ->options([
+                    'backgroundColor' => 'rgba(200, 200, 200, 0.2)',
+                    'borderColor' => 'rgba(150, 150, 150, 1)',
+                    'fill' => true,
+                    'tension' => 0.4,
+                ]);
+            
+            return $chart;
+        }
+    }
 
-        $chart->labels(['Meal Plan Followed', 'Exercise Done'])
-            ->dataset('User Compliance (%)', 'line', [$total_first, $total_second])
-            ->options([
-                'backgroundColor' => 'rgba(75, 192, 192, 0.2)',
-                'borderColor' => 'rgba(75, 192, 192, 1)',
-                'fill' => true,
-                'tension' => 0.4,
-            ]);
+    public function generate_bmi_chart()
+    {
+        try {
+            $bmiData = $this->chartService->getBmiProgressData();
+            
+            $chart = new Chart;
+            
+            if ($bmiData['hasData']) {
+                $chart->labels($bmiData['labels'])
+                    ->dataset('BMI Progress', 'bar', $bmiData['data'])
+                    ->options([
+                        'backgroundColor' => 'rgba(16, 185, 129, 0.6)',
+                        'borderColor' => 'rgba(16, 185, 129, 1)',
+                        'borderWidth' => 2,
+                    ]);
+            } else {
+                // Show empty state
+                $chart->labels(['No Data'])
+                    ->dataset('BMI Progress', 'bar', [0])
+                    ->options([
+                        'backgroundColor' => 'rgba(200, 200, 200, 0.4)',
+                        'borderColor' => 'rgba(150, 150, 150, 1)',
+                        'borderWidth' => 2,
+                    ]);
+            }
+            
+            return $chart;
+        } catch (\Exception $e) {
+            Log::error('Error generating BMI chart: ' . $e->getMessage());
+            
+            // Return empty chart as fallback
+            $chart = new Chart;
+            $chart->labels(['No Data'])
+                ->dataset('BMI Progress', 'bar', [0])
+                ->options([
+                    'backgroundColor' => 'rgba(200, 200, 200, 0.4)',
+                    'borderColor' => 'rgba(150, 150, 150, 1)',
+                    'borderWidth' => 2,
+                ]);
+            
+            return $chart;
+        }
+    }
 
-        return $chart;
+    public function generate_heart_rate_chart()
+    {
+        try {
+            $heartRateData = $this->chartService->getHeartRateTrendData();
+            
+            $chart = new Chart;
+            
+            if ($heartRateData['hasData']) {
+                $chart->labels($heartRateData['labels'])
+                    ->dataset('Heart Rate (BPM)', 'line', $heartRateData['data'])
+                    ->options([
+                        'backgroundColor' => 'rgba(59, 130, 246, 0.1)',
+                        'borderColor' => 'rgba(59, 130, 246, 1)',
+                        'borderWidth' => 3,
+                        'fill' => true,
+                        'tension' => 0.4,
+                        'pointBackgroundColor' => 'rgba(59, 130, 246, 1)',
+                        'pointBorderColor' => '#ffffff',
+                        'pointBorderWidth' => 2,
+                        'pointRadius' => 5,
+                    ]);
+            } else {
+                // Show empty state
+                $chart->labels(['No Data'])
+                    ->dataset('Heart Rate (BPM)', 'line', [0])
+                    ->options([
+                        'backgroundColor' => 'rgba(200, 200, 200, 0.1)',
+                        'borderColor' => 'rgba(150, 150, 150, 1)',
+                        'borderWidth' => 3,
+                        'fill' => true,
+                        'tension' => 0.4,
+                        'pointBackgroundColor' => 'rgba(150, 150, 150, 1)',
+                        'pointBorderColor' => '#ffffff',
+                        'pointBorderWidth' => 2,
+                        'pointRadius' => 5,
+                    ]);
+            }
+            
+            return $chart;
+        } catch (\Exception $e) {
+            Log::error('Error generating heart rate chart: ' . $e->getMessage());
+            
+            // Return empty chart as fallback
+            $chart = new Chart;
+            $chart->labels(['No Data'])
+                ->dataset('Heart Rate (BPM)', 'line', [0])
+                ->options([
+                    'backgroundColor' => 'rgba(200, 200, 200, 0.1)',
+                    'borderColor' => 'rgba(150, 150, 150, 1)',
+                    'borderWidth' => 3,
+                    'fill' => true,
+                    'tension' => 0.4,
+                    'pointBackgroundColor' => 'rgba(150, 150, 150, 1)',
+                    'pointBorderColor' => '#ffffff',
+                    'pointBorderWidth' => 2,
+                    'pointRadius' => 5,
+                ]);
+            
+            return $chart;
+        }
+    }
+
+    public function generate_medication_chart()
+    {
+        try {
+            $medicationData = $this->chartService->getMedicationAdherenceData();
+            
+            $chart = new Chart;
+            $chart->labels($medicationData['labels'])
+                ->dataset('Medication Adherence', 'pie', $medicationData['data'])
+                ->options([
+                    'backgroundColor' => $medicationData['hasData'] ? [
+                        'rgba(16, 185, 129, 0.8)',  // Green for taken
+                        'rgba(239, 68, 68, 0.8)',   // Red for missed
+                        'rgba(245, 158, 11, 0.8)'   // Orange for pending
+                    ] : [
+                        'rgba(200, 200, 200, 0.8)',
+                        'rgba(180, 180, 180, 0.8)',
+                        'rgba(160, 160, 160, 0.8)'
+                    ],
+                    'borderColor' => $medicationData['hasData'] ? [
+                        'rgba(16, 185, 129, 1)',
+                        'rgba(239, 68, 68, 1)',
+                        'rgba(245, 158, 11, 1)'
+                    ] : [
+                        'rgba(150, 150, 150, 1)',
+                        'rgba(130, 130, 130, 1)',
+                        'rgba(110, 110, 110, 1)'
+                    ],
+                    'borderWidth' => 2,
+                ]);
+
+            return $chart;
+        } catch (\Exception $e) {
+            Log::error('Error generating medication chart: ' . $e->getMessage());
+            
+            // Return empty chart as fallback
+            $chart = new Chart;
+            $chart->labels(['No Data', '', ''])
+                ->dataset('Medication Adherence', 'pie', [1, 0, 0])
+                ->options([
+                    'backgroundColor' => [
+                        'rgba(200, 200, 200, 0.8)',
+                        'rgba(180, 180, 180, 0.8)',
+                        'rgba(160, 160, 160, 0.8)'
+                    ],
+                    'borderColor' => [
+                        'rgba(150, 150, 150, 1)',
+                        'rgba(130, 130, 130, 1)',
+                        'rgba(110, 110, 110, 1)'
+                    ],
+                    'borderWidth' => 2,
+                ]);
+            
+            return $chart;
+        }
     }
 
 

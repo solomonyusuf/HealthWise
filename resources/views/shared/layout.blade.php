@@ -1,8 +1,5 @@
 @php
-
-  $result =  App\Http\Controllers\ChartController::generate_activity();
-
-   
+  $currentYear = date('Y');
 @endphp
 
 <!-- meta tags and other links -->
@@ -144,7 +141,7 @@
         <footer class="d-footer">
             <div class="row align-items-center justify-content-between">
                 <div class="col-auto">
-                    <p class="mb-0">© 2024 HealthWise. All Rights Reserved.</p>
+                    <p class="mb-0">© {{ $currentYear }} HealthWise. All Rights Reserved.</p>
                 </div>
 
             </div>
@@ -176,57 +173,13 @@
     <!-- audioplayer -->
     <script src="assets/js/lib/audioplayer.js"></script>
 
+    <!-- Chart utilities -->
+    <script src="assets/js/chart-utils.js"></script>
     <!-- main js -->
     <script src="assets/js/app.js"></script>
-@php
-    // Ensure it's a number by stripping the % sign
-    $numericResult = (int) str_replace('%', '', $result);
-@endphp
-    <script>
-    var options = {
-        series: [{{ $numericResult }}],
-        chart: {
-            height: 300,
-            type: 'radialBar',
-        },
-        plotOptions: {
-            radialBar: {
-                hollow: {
-                    margin: 15,
-                    size: "70%",
-                },
-                dataLabels: {
-                    showOn: "always",
-                    name: {
-                        show: true,
-                        fontSize: "18px",
-                        color: "#333",
-                        offsetY: -10,
-                    },
-                    value: {
-                        show: true,
-                        fontSize: "20px",
-                        color: "#111",
-                        offsetY: 10,
-                        formatter: function (val) {
-                            return val + "%";
-                        }
-                    }
-                }
-            }
-        },
-        fill: {
-            colors: ['#3D7FF9']
-        },
-        stroke: {
-            lineCap: "round",
-        },
-        labels: ["Diabetes Risk"],
-    };
-
-    var chart = new ApexCharts(document.querySelector("#diabetesRiskChart"), options);
-    chart.render();
-</script>
+@if(View::hasSection('chart-scripts'))
+    @yield('chart-scripts')
+@endif
 
 </body>
 
